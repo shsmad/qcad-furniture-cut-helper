@@ -3,13 +3,23 @@ function log(message) {
 }
 
 
-function createRectangle(width, height) {
-    var polylineData = new RPolylineData();
-    polylineData.appendVertex(new RVector(0, 0));
-    polylineData.appendVertex(new RVector(0, height));
-    polylineData.appendVertex(new RVector(width, height));
-    polylineData.appendVertex(new RVector(width, 0));
+function addRectangle(document, objectsOperation, left, bottom, width, height, weights) {
+    var lineLeft = new RLineEntity(document, new RLineData(new RVector(left, bottom), new RVector(left, bottom + height)));
+    lineLeft.setLineweight(weights.left || RLineweight.WeightByLayer);
 
+    var lineTop = new RLineEntity(document, new RLineData(new RVector(left, bottom + height), new RVector(left + width, bottom + height)));
+    lineTop.setLineweight(weights.top || RLineweight.WeightByLayer);
+
+    var lineRight = new RLineEntity(document, new RLineData(new RVector(left + width, bottom + height), new RVector(left + width, bottom)));
+    lineRight.setLineweight(weights.right || RLineweight.WeightByLayer);
+
+    var lineBottom = new RLineEntity(document, new RLineData(new RVector(left, bottom), new RVector(left + width, bottom)));
+    lineBottom.setLineweight(weights.bottom || RLineweight.WeightByLayer);
+
+    objectsOperation.addObject(lineLeft, false);
+    objectsOperation.addObject(lineTop, false);
+    objectsOperation.addObject(lineRight, false);
+    objectsOperation.addObject(lineBottom, false);
 
 }
 

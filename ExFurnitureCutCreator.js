@@ -57,45 +57,25 @@ ExFurnitureCutCreator.prototype.beginEvent = function() {
 
     var op = new RAddObjectsOperation();
 
-    var lineLeft = new RLineEntity(document, new RLineData(new RVector(0, 0), new RVector(0, sbHeight)));
-    lineLeft.setLineweight(cbEdgingLeft ? RLineweight.Weight070 : RLineweight.WeightByLayer);
-    var lineTop = new RLineEntity(document, new RLineData(new RVector(0, sbHeight), new RVector(sbWidth, sbHeight)));
-    lineTop.setLineweight(cbEdgingTop ? RLineweight.Weight070 : RLineweight.WeightByLayer);
-    var lineRight = new RLineEntity(document, new RLineData(new RVector(sbWidth, sbHeight), new RVector(sbWidth, 0)));
-    lineRight.setLineweight(cbEdgingRight ? RLineweight.Weight070 : RLineweight.WeightByLayer);
-    var lineBottom = new RLineEntity(document, new RLineData(new RVector(sbWidth, 0), new RVector(0, 0)));
-    lineBottom.setLineweight(cbEdgingBottom ? RLineweight.Weight070 : RLineweight.WeightByLayer);
+    addRectangle(document, op, 0, 0, sbWidth, sbHeight, {
+        left: cbEdgingLeft ? RLineweight.Weight070 : RLineweight.WeightByLayer,
+        top: cbEdgingTop ? RLineweight.Weight070 : RLineweight.WeightByLayer,
+        right: cbEdgingRight ? RLineweight.Weight070 : RLineweight.WeightByLayer,
+        bottom: cbEdgingBottom ? RLineweight.Weight070 : RLineweight.WeightByLayer,
+    });
 
-    op.addObject(lineLeft, false);
-    op.addObject(lineTop, false);
-    op.addObject(lineRight, false);
-    op.addObject(lineBottom, false);
     var cbGenerateProjectionVer = widgets["cbGenerateProjectionVer"].checked;
     var cbGenerateProjectionHor = widgets["cbGenerateProjectionHor"].checked;
 
 
     if (cbGenerateProjectionVer) {
         var padding = 50 + sbWidth;
-        var lineLeft = new RLineEntity(document, new RLineData(new RVector(0 + padding, 0), new RVector(0 + padding, sbHeight)));
-        var lineTop = new RLineEntity(document, new RLineData(new RVector(0 + padding, sbHeight), new RVector(sbThickness + padding, sbHeight)));
-        var lineRight = new RLineEntity(document, new RLineData(new RVector(sbThickness + padding, sbHeight), new RVector(sbThickness + padding, 0)));
-        var lineBottom = new RLineEntity(document, new RLineData(new RVector(sbThickness + padding, 0), new RVector(0 + padding, 0)));
-        op.addObject(lineLeft, false);
-    op.addObject(lineTop, false);
-    op.addObject(lineRight, false);
-    op.addObject(lineBottom, false);
+        addRectangle(document, op, padding, 0, sbThickness, sbHeight, {});
     }
 
     if (cbGenerateProjectionHor) {
-        var padding = 50;
-        var lineLeft = new RLineEntity(document, new RLineData(new RVector(0, 0 - padding - sbThickness), new RVector(0, 0 - padding)));
-        var lineTop = new RLineEntity(document, new RLineData(new RVector(0, 0 - padding), new RVector(sbWidth, 0 - padding)));
-        var lineRight = new RLineEntity(document, new RLineData(new RVector(sbWidth, 0 - padding), new RVector(sbWidth, 0 - padding - sbThickness)));
-        var lineBottom = new RLineEntity(document, new RLineData(new RVector(0, 0 - padding - sbThickness), new RVector(sbWidth, 0 - padding - sbThickness)));
-        op.addObject(lineLeft, false);
-    op.addObject(lineTop, false);
-    op.addObject(lineRight, false);
-    op.addObject(lineBottom, false);
+        var padding = 0 - 50 - sbThickness;
+        addRectangle(document, op, 0, padding, sbWidth, sbThickness, {});
     }
 
 
