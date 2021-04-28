@@ -21,6 +21,11 @@ ExFurnitureCutCreator.prototype.beginEvent = function() {
     var document = EAction.getDocument();
     var di = EAction.getDocumentInterface();
 
+    var LINE_CONTINUOUS = document.getLinetypeId("CONTINUOUS");
+    var LINE_DOT = document.getLinetypeId("DOT");
+    log("LINE_CONTINUOUS: " + LINE_CONTINUOUS);
+    log("DOT: " + LINE_DOT);
+
 
     //let the user enter the desired parameters
     var dialog = WidgetFactory.createWidget("scripts/Misc/Examples/ExFurnitureCutCreator", "MyFurnitureCutCreator.ui");
@@ -48,13 +53,6 @@ ExFurnitureCutCreator.prototype.beginEvent = function() {
     var cbEdgingRight = widgets["cbEdgingRight"].checked;
     var cbEdgingBottom = widgets["cbEdgingBottom"].checked;
 
-    log("cbEdgingLeft: " + cbEdgingLeft);
-    log("cbEdgingTop: " + cbEdgingTop);
-    log("cbEdgingRight: " + cbEdgingRight);
-    log("cbEdgingBottom: " + cbEdgingBottom);
-    log("RLineweight.Weight070" + RLineweight.Weight070);
-    log("RLineweight.WeightByLayer" + RLineweight.WeightByLayer);
-
     var op = new RAddObjectsOperation();
 
     addRectangle(document, op, 0, 0, sbWidth, sbHeight, {
@@ -62,20 +60,74 @@ ExFurnitureCutCreator.prototype.beginEvent = function() {
         top: cbEdgingTop ? RLineweight.Weight070 : RLineweight.WeightByLayer,
         right: cbEdgingRight ? RLineweight.Weight070 : RLineweight.WeightByLayer,
         bottom: cbEdgingBottom ? RLineweight.Weight070 : RLineweight.WeightByLayer,
-    });
+    }, LINE_CONTINUOUS);
 
     var cbGenerateProjectionVer = widgets["cbGenerateProjectionVer"].checked;
     var cbGenerateProjectionHor = widgets["cbGenerateProjectionHor"].checked;
 
 
     if (cbGenerateProjectionVer) {
-        var padding = 50 + sbWidth;
-        addRectangle(document, op, padding, 0, sbThickness, sbHeight, {});
+        addRectangle(document, op, 50 + sbWidth, 0, sbThickness, sbHeight, {}, LINE_CONTINUOUS);
     }
 
     if (cbGenerateProjectionHor) {
-        var padding = 0 - 50 - sbThickness;
-        addRectangle(document, op, 0, padding, sbWidth, sbThickness, {});
+        addRectangle(document, op, 0, 0 - 50 - sbThickness, sbWidth, sbThickness, {}, LINE_CONTINUOUS);
+    }
+
+    var rbHolePerpendicular = widgets["rbHolePerpendicular"].checked;
+    var rbHoleParallel = widgets["rbHoleParallel"].checked;
+
+    var holes = [];
+
+    var sbOffset = widgets["sbOffset"].value;
+    if (rbHolePerpendicular) {
+        if (widgets["rbHole1K"].checked) {
+            holes.push({d: widgets["spHole1Kd1"].value, l: sbThickness, t: LINE_CONTINUOUS, offset: sbOffset, type: "circle"});
+        }
+
+        if (widgets["rbHole1E"].checked) {
+            holes.push({d: widgets["spHole1Ed1"].value, l: widgets["spHole1El1"].value, t: LINE_CONTINUOUS, offset: sbOffset, type: "circle"});
+        }
+
+        if (widgets["rbHole1S"].checked) {
+            holes.push({d: widgets["spHole1Sd1"].value, l: widgets["spHole1Sl1"].value, t: LINE_CONTINUOUS, offset: sbOffset, type: "circle"});
+        }
+
+        if (widgets["cbHole2S"].checked) {
+            holes.push({d: widgets["spHole2Sd1"].value, l: widgets["spHole2Sl1"].value, t: LINE_CONTINUOUS, offset: sbOffset + 32, type: "circle"});
+        }
+
+        if (widgets["cbHole3K"].checked) {
+            holes.push({d: widgets["spHole3Kd1"].value, l: sbThickness, t: LINE_CONTINUOUS, offset: sbOffset + 64, type: "circle"});
+        }
+
+    } else if (rbHoleParallel) {
+        if (widgets["rbHole1K"].checked) {
+            holes.push({d: widgets["spHole1Kd2"].value, l: widgets["spHole1Kl2"].value, t: LINE_DOT, offset: sbOffset, type: "rect"});
+        }
+
+        if (widgets["rbHole1E"].checked) {
+            holes.push({d: widgets["spHole1Ed2"].value, l: widgets["spHole1El2"].value, t: LINE_DOT, offset: sbOffset, type: "rect"});
+            holes.push({d: widgets["spHole1Ed"].value, l: widgets["spHole1El2"].value, t: LINE_DOT, offset: sbOffset, type: "minifix"});
+        }
+
+        if (widgets["rbHole1S"].checked) {
+            holes.push({d: widgets["spHole1Sd2"].value, l: widgets["spHole1Sl2"].value, t: LINE_DOT, offset: sbOffset, type: "rect"});
+        }
+
+        if (widgets["cbHole2S"].checked) {
+            holes.push({d: widgets["spHole2Sd2"].value, l: widgets["spHole2Sl2"].value, t: LINE_DOT, offset: sbOffset + 32, type: "rect"});
+        }
+
+        if (widgets["cbHole3K"].checked) {
+            holes.push({d: widgets["spHole3Kd2"].value, l: widgets["spHole3Kl2"].value, t: LINE_DOT, offset: sbOffset + 64, type: "rect"});
+        }
+    }
+
+    if (sbHeight >= sbWidth) {
+        addPerpendicularHolesToVerticalCut(document, op, 0, 0, sbWidth, sbHeight, sbThickness, holes);
+    } else {
+        addPerpendicularHolesToHorisontalCut(document, op, 0, 0, sbWidth, sbHeight, sbThickness, holes);
     }
 
 

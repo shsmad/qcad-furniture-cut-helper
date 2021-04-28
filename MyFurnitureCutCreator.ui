@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>469</width>
-    <height>447</height>
+    <height>507</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -28,10 +28,10 @@
      <x>10</x>
      <y>10</y>
      <width>451</width>
-     <height>431</height>
+     <height>491</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
@@ -89,7 +89,7 @@
            <number>3000</number>
           </property>
           <property name="value">
-           <number>200</number>
+           <number>600</number>
           </property>
          </widget>
         </item>
@@ -99,7 +99,7 @@
            <number>3000</number>
           </property>
           <property name="value">
-           <number>100</number>
+           <number>1000</number>
           </property>
          </widget>
         </item>
@@ -171,7 +171,7 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>230</height>
+        <height>260</height>
        </size>
       </property>
       <property name="title">
@@ -181,7 +181,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>20</y>
+         <y>50</y>
          <width>432</width>
          <height>200</height>
         </rect>
@@ -218,7 +218,7 @@
         <item row="2" column="5">
          <widget class="QSpinBox" name="spHole1El2">
           <property name="value">
-           <number>30</number>
+           <number>34</number>
           </property>
          </widget>
         </item>
@@ -256,7 +256,11 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QSpinBox" name="spHole1Kd1"/>
+         <widget class="QSpinBox" name="spHole1Kd1">
+          <property name="value">
+           <number>8</number>
+          </property>
+         </widget>
         </item>
         <item row="4" column="2">
          <widget class="QSpinBox" name="spHole2Sd1">
@@ -317,7 +321,7 @@
         <item row="5" column="4">
          <widget class="QSpinBox" name="spHole3Kd2">
           <property name="value">
-           <number>8</number>
+           <number>5</number>
           </property>
          </widget>
         </item>
@@ -350,7 +354,11 @@
          </widget>
         </item>
         <item row="1" column="5">
-         <widget class="QSpinBox" name="spHole1Kl2"/>
+         <widget class="QSpinBox" name="spHole1Kl2">
+          <property name="value">
+           <number>40</number>
+          </property>
+         </widget>
         </item>
         <item row="5" column="5">
          <widget class="QSpinBox" name="spHole3Kl2">
@@ -395,14 +403,18 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QSpinBox" name="sbIndent">
+         <widget class="QSpinBox" name="sbOffset">
           <property name="value">
            <number>37</number>
           </property>
          </widget>
         </item>
         <item row="1" column="4">
-         <widget class="QSpinBox" name="spHole1Kd2"/>
+         <widget class="QSpinBox" name="spHole1Kd2">
+          <property name="value">
+           <number>5</number>
+          </property>
+         </widget>
         </item>
         <item row="0" column="4">
          <widget class="QLabel" name="label_10">
@@ -422,6 +434,38 @@
          <widget class="QLabel" name="label_12">
           <property name="text">
            <string>d</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>19</y>
+         <width>247</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QRadioButton" name="rbHolePerpendicular">
+          <property name="text">
+           <string>Перпендикулярно</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="autoExclusive">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="rbHoleParallel">
+          <property name="text">
+           <string>Параллельно</string>
           </property>
          </widget>
         </item>
@@ -451,13 +495,13 @@
     </item>
     <item>
      <widget class="QDialogButtonBox" name="btnCreate">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="standardButtons">
+       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
