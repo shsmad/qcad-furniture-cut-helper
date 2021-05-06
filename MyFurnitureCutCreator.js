@@ -2,22 +2,31 @@ function log(message) {
     EAction.handleUserMessage("log: " + message);
 }
 
+function createEdgeWeights(left, top, right, bottom){
+    return {
+        left: left ? RLineweight.Weight070 : RLineweight.WeightByLayer,
+        top: top ? RLineweight.Weight070 : RLineweight.WeightByLayer,
+        right: right ? RLineweight.Weight070 : RLineweight.WeightByLayer,
+        bottom: bottom ? RLineweight.Weight070 : RLineweight.WeightByLayer,
+    }
+}
 
-function addRectangle(document, objectsOperation, left, bottom, width, height, weights, linetype) {
-    log("addRectangle: " + left + bottom + width + height + weights + linetype);
-    var lineLeft = new RLineEntity(document, new RLineData(new RVector(left, bottom), new RVector(left, bottom + height)));
+
+function addRectangle(document, objectsOperation, board, weights, linetype) {
+    log("addRectangle: " + board.left + board.bottom + board.width + board.height + weights + linetype);
+    var lineLeft = new RLineEntity(document, new RLineData(new RVector(board.left, board.bottom), new RVector(board.left, board.bottom + board.height)));
     lineLeft.setLineweight(weights.left || RLineweight.WeightByLayer);
     lineLeft.setLinetypeId(linetype);
 
-    var lineTop = new RLineEntity(document, new RLineData(new RVector(left, bottom + height), new RVector(left + width, bottom + height)));
+    var lineTop = new RLineEntity(document, new RLineData(new RVector(board.left, board.bottom + board.height), new RVector(board.left + board.width, board.bottom + board.height)));
     lineTop.setLineweight(weights.top || RLineweight.WeightByLayer);
     lineTop.setLinetypeId(linetype);
 
-    var lineRight = new RLineEntity(document, new RLineData(new RVector(left + width, bottom + height), new RVector(left + width, bottom)));
+    var lineRight = new RLineEntity(document, new RLineData(new RVector(board.left + board.width, board.bottom + board.height), new RVector(board.left + board.width, board.bottom)));
     lineRight.setLineweight(weights.right || RLineweight.WeightByLayer);
     lineRight.setLinetypeId(linetype);
 
-    var lineBottom = new RLineEntity(document, new RLineData(new RVector(left, bottom), new RVector(left + width, bottom)));
+    var lineBottom = new RLineEntity(document, new RLineData(new RVector(board.left, board.bottom), new RVector(board.left + board.width, board.bottom)));
     lineBottom.setLineweight(weights.bottom || RLineweight.WeightByLayer);
     lineBottom.setLinetypeId(linetype);
 
